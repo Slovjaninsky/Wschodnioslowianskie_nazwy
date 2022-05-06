@@ -25,15 +25,18 @@ namespace Wschodnioslowianskie_nazwy
         public MainWindow()
         {
             InitializeComponent();
-            translate = new Translator();
-            languageSelection.Width = (textToChange.Width - 20) / 3;
+            translate = new Translator(); //creating the instance of Translator class
+            languageSelection.Width = (textToChange.Width - 20) / 3; //adjusting sizes of comboboxes and buttons
             polszczenieSelection.Width = (textToChange.Width - 20) / 3;
             transcrypt.Width = (textToChange.Width - 20) / 3;
         }
 
+        //adjusting sizes of elements after resizing the window
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            textToChange.Height = e.NewSize.Height * 33 / 100;
+            double newTextFieldHeight = (e.NewSize.Height - languageSelection.ActualHeight - information.ActualHeight - 50) / 2;
+            if (newTextFieldHeight < 0) newTextFieldHeight = 0;
+            textToChange.Height = newTextFieldHeight;
             textToChange.Width = e.NewSize.Width - 20;
             languageSelection.Width = (textToChange.Width - 20) / 3;
             ukrLang.Width = (textToChange.Width - 20) / 3;
@@ -47,11 +50,11 @@ namespace Wschodnioslowianskie_nazwy
             polszczenieSelection.Margin = new Thickness(languageSelection.Width + 20, textToChange.Height + 20, 0, 0);
             transcrypt.Margin = new Thickness(languageSelection.Width + 30 + polszczenieSelection.Width, textToChange.Height + 20, 0, 0);
             outputField.Margin = new Thickness(10, textToChange.Height + 30 + transcrypt.ActualHeight, 0, 0);
-            outputField.Height = e.NewSize.Height * 33 / 100;
+            outputField.Height = newTextFieldHeight;
             outputField.Width = e.NewSize.Width - 20;
             information.Margin = new Thickness(10, e.NewSize.Height - information.ActualHeight - 10, 0, 0);
-            authorLabel.Margin = new Thickness(e.NewSize.Width - authorLabel.ActualWidth - 10, e.NewSize.Height - information.ActualHeight - 10, 0, 0);
         }
+        //"Transkrybuj" button click
         private void transcrypt_Click(object sender, RoutedEventArgs e)
         {
             string text = textToChange.Text;
@@ -60,24 +63,12 @@ namespace Wschodnioslowianskie_nazwy
             {
                 switch (languageSelection.SelectedIndex)
                 {
-                    case 0: 
-                        switch (polszczenieSelection.SelectedIndex)
-                        {
-                            case 0: outputField.Text = translate.translateUkrainian(text, false); break;
-                            case 1: outputField.Text = translate.translateUkrainian(text, true); break;
-                        }; break;
+                    case 0:
+                        outputField.Text = translate.translateUkrainian(text, polszczenieSelection.SelectedIndex == 1); break; //selected Ukrainian
                     case 1:
-                        switch (polszczenieSelection.SelectedIndex)
-                        {
-                            case 0: outputField.Text = translate.translateBelarusian(text, false); break;
-                            case 1: outputField.Text = translate.translateBelarusian(text, true); break;
-                        }; break;
+                        outputField.Text = translate.translateBelarusian(text, polszczenieSelection.SelectedIndex == 1); break; //selected Belarusian
                     case 2:
-                        switch (polszczenieSelection.SelectedIndex)
-                        {
-                            case 0: outputField.Text = translate.translateRussian(text, false); break;
-                            case 1: outputField.Text = translate.translateRussian(text, true); break;
-                        }; break;
+                        outputField.Text = translate.translateRussian(text, polszczenieSelection.SelectedIndex == 1); break; //selected Russian
                 }
             }
         }

@@ -165,11 +165,6 @@ namespace Wschodnioslowianskie_nazwy
             {"LЬ", "L" }
         };
 
-        public Translator()
-        {
-            //initializes Tranlsator class
-        }
-
         public string translateUkrainian(string text, bool polszczenie)
         {
             StringBuilder newString = new StringBuilder(text.ToUpper());
