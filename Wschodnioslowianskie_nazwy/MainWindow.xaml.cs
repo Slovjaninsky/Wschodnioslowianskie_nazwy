@@ -21,7 +21,38 @@ namespace Wschodnioslowianskie_nazwy
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region informationText
+        private string informationText = "~~~~POLSKI~~~~\n" +
+            "\nTa aplikcja została stworzona dla sprawdzenia transkrypcji ukraińskich, białoruskich oraz rosyjskich nazw własnych na polską pisownię.\n" +
+            "\nNIE JESTEM autorem zasad transkrypcji. Wszystkie zasady dotyczące transkrypcji oraz polszczenia nazw własnych znajsziecie na stronie PWN - Słownik Języka Polskiego:\n" +
+            "\nUkraiński - https://sjp.pwn.pl/zasady/Transliteracja-i-transkrypcja-wspolczesnego-alfabetu-ukrainskiego;629710.html \n" +
+            "\nBiałoruski - https://sjp.pwn.pl/zasady/Transliteracja-i-transkrypcja-wspolczesnego-alfabetu-bialoruskiego;629719.html \n" +
+            "\nRosyjski - https://sjp.pwn.pl/zasady/Transliteracja-i-transkrypcja-wspolczesnego-alfabetu-rosyjskiego;629695.html \n" +
+            "\nJak to działa?\n" +
+            "\nStarałem się zrobić najbardziej intuicyjny GUI, ale na wszelki przypadek zostawię to tutaj.\n" +
+            "\n\"Tu ma być twój tekst\" - wpisujecie tekst do transkrypcji (na przykład, \"Тарас Шевченко\").\n" +
+            "\nDalej jest do wyboru język, z którego robi się transkrypcja (to jest istotne dla uzyskania prawidłowej transkrypcji) oraz istnieje możliwość polszczenia końcówek.\n" +
+            "\nPrzycisk \"Transkrybuj\" robi transkrypcję wpisanego do głownego pola tekstu.\n" +
+            "\nWynik pojawi się w dolnej sekcji okna (w wyżej wymienionym przykładzie - \"Taras Szewczenko\").\n" +
+            "\nJak się znajdzie jakiś błąd lub nieprawidłowa transkrypcja - proszę poinfromować mnie wraz z szczegółami.\n" +
+            "\n~~~РУССКИЙ~~~\n" +
+            "\nЭто приложение было создано для проверки транскрипции украинских, белорусских и русских имен собственных на польское написание.\n" +
+            "\nЯ НЕ ЯВЛЯЮСЬ автором правил транскрипции. Все правила транскрипции и полонизации имен собственных можно найти на сайте PWN - Словарь польского языка:\n" +
+            "\nУкраинский - https://sjp.pwn.pl/zasady/Transliteracja-i-transkrypcja-wspolczesnego-alfabetu-ukrainskiego;629710.html \n" +
+            "\nБелорусский - https://sjp.pwn.pl/zasady/Transliteracja-i-transkrypcja-wspolczesnego-alfabetu-bialoruskiego;629719.html \n" +
+            "\nРусский - https://sjp.pwn.pl/zasady/Transliteracja-i-transkrypcja-wspolczesnego-alfabetu-rosyjskiego;629695.html \n" +
+            "\nКак это работает?\n" +
+            "\nЯ старался сделать максимально интуитивно понятный GUI, но в любом случае оставлю это здесь.\n" +
+            "\n\"Tu ma być twój tekst\" - введите текст для транскрипции (например, \"Тарас Шевченко\").\n" +
+            "\nДалее вы можете выбрать язык, с которого вы транскрибируете (это важно для правильной транскрипции), а также возможность полонизации окончаний.\n" +
+            "\nКнопка «Transkrybuj» транскрибирует текст, введенный в основное поле.\n" +
+            "\nРезультат появится в нижней части окна (в приведенном выше примере - \"Taras Szewczenko\").\n" +
+            "\nЕсли вы обнаружите какую-либо ошибку или неправильную транскрипцию - пожалуйста, сообщите мне подробности.\n" +
+            "\n~~~DANE KONTAKTOWE/КОНТАКТНЫЕ ДАННЫЕ~~~\n" +
+            "\nt.me/slovjaninsky\nDiscord: Heavylight#7616";
+        #endregion
         Translator translate;
+        private bool textIsChanged = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -78,12 +109,19 @@ namespace Wschodnioslowianskie_nazwy
             Window popup = new Window();
             TextBox popupText = new TextBox();
             popupText.IsReadOnly = true;
-            using(StreamReader read = new StreamReader("READ_ME.txt"))
-            {
-                popupText.Text = read.ReadToEnd();
-            }
+            popupText.Text = informationText;
             popup.Content = popupText;
             popup.Show();
+        }
+
+        private void textToChange_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!textIsChanged)
+            {
+                textToChange.Foreground = Brushes.Black;
+                textToChange.Text = "";
+                textIsChanged = true;
+            }
         }
     }
 }
